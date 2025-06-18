@@ -45,7 +45,7 @@ int main()
 		}
 		else
 		{
-			std::cout << "’ÊMƒGƒ‰[" << std::endl;
+			std::cout << "é€šä¿¡ã‚¨ãƒ©ãƒ¼" << std::endl;
 		}
 
 		curl_easy_cleanup(curl);
