@@ -17,7 +17,7 @@ std::future<std::string> GetAllFacultiesAsync()
 	return std::async(std::launch::async, []() -> std::string
 		{
 			CURL* curl = curl_easy_init();
-			if (!curl) return "CURL初期化エラー";
+			if (!curl) return "CURL蛻晄悄蛹悶お繝ｩ繝ｼ";
 
 			std::string response;
 			curl_easy_setopt(curl, CURLOPT_URL, "http://localhost:3000/faculties");
@@ -30,7 +30,7 @@ std::future<std::string> GetAllFacultiesAsync()
 
 			if (res != CURLE_OK)
 			{
-				return std::string("取得エラー:") + curl_easy_strerror(res);
+				return std::string("蜿門ｾ励お繝ｩ繝ｼ:") + curl_easy_strerror(res);
 			}
 
 			return response;
@@ -42,7 +42,7 @@ std::future<std::string> GetFacultyByIdAsync(int id)
 	return std::async(std::launch::async, [id]() -> std::string
 		{
 			CURL* curl = curl_easy_init();
-			if (!curl) return "CURL初期化エラー";
+			if (!curl) return "CURL蛻晄悄蛹悶お繝ｩ繝ｼ";
 
 			std::string response;
 			std::stringstream url;
@@ -58,7 +58,7 @@ std::future<std::string> GetFacultyByIdAsync(int id)
 
 			if (res != CURLE_OK)
 			{
-				return std::string("取得エラー:") + curl_easy_strerror(res);
+				return std::string("蜿門ｾ励お繝ｩ繝ｼ:") + curl_easy_strerror(res);
 			}
 
 			return response;
@@ -70,7 +70,7 @@ std::future<std::string> PostFacultyAsync(const std::string& name)
 	return std::async(std::launch::async, [name]() -> std::string
 		{
 			CURL* curl = curl_easy_init();
-			if (!curl) return "CURL初期化エラー";
+			if (!curl) return "CURL蛻晄悄蛹悶お繝ｩ繝ｼ";
 
 			json body = {
 				{ "name", name }
@@ -96,7 +96,7 @@ std::future<std::string> PostFacultyAsync(const std::string& name)
 
 			if (res != CURLE_OK)
 			{
-				return std::string("送信エラー:") + curl_easy_strerror(res);
+				return std::string("騾∽ｿ｡繧ｨ繝ｩ繝ｼ:") + curl_easy_strerror(res);
 			}
 
 			return response;
@@ -108,7 +108,7 @@ std::future<std::string> PatchFacultyAsync(int id, const std::string& newName)
 	return std::async(std::launch::async, [id, newName]() -> std::string
 		{
 			CURL* curl = curl_easy_init();
-			if (!curl) return "CURL初期化エラー";
+			if (!curl) return "CURL蛻晄悄蛹悶お繝ｩ繝ｼ";
 
 			std::string response;
 			std::stringstream url;
@@ -137,7 +137,7 @@ std::future<std::string> PatchFacultyAsync(int id, const std::string& newName)
 
 			if (res != CURLE_OK)
 			{
-				return std::string("更新エラー:") + curl_easy_strerror(res);
+				return std::string("譖ｴ譁ｰ繧ｨ繝ｩ繝ｼ:") + curl_easy_strerror(res);
 			}
 
 			return response;
@@ -149,7 +149,7 @@ std::future<std::string> DeleteFacultyAsync(int id)
 	return std::async(std::launch::async, [id]() -> std::string
 		{
 			CURL* curl = curl_easy_init();
-			if (!curl) return "CURL初期化エラー";
+			if (!curl) return "CURL蛻晄悄蛹悶お繝ｩ繝ｼ";
 
 			std::string response;
 			std::stringstream url;
@@ -165,7 +165,7 @@ std::future<std::string> DeleteFacultyAsync(int id)
 
 			if (res != CURLE_OK)
 			{
-				return std::string("削除エラー:") + curl_easy_strerror(res);
+				return std::string("蜑企勁繧ｨ繝ｩ繝ｼ:") + curl_easy_strerror(res);
 			}
 
 			return response;

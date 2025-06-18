@@ -6,22 +6,22 @@ int main()
 {
 	SetConsoleOutputCP(65001);
 
-	auto patchFuture = PatchFacultyAsync(2, "ƒX[ƒp[ƒQ[ƒ€ƒNƒŠƒGƒCƒ^[‰È");
+	auto patchFuture = PatchFacultyAsync(2, "ã‚¹ãƒ¼ãƒ‘ãƒ¼ã‚²ãƒ¼ãƒ ã‚¯ãƒªã‚¨ã‚¤ã‚¿ãƒ¼ç§‘");
 
 	while (true)
 	{
 		if (patchFuture.valid() && patchFuture.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
 		{
 			std::string res = patchFuture.get();
-			std::cout << "PATCHŒ‹‰Ê: " << res << std::endl;
+			std::cout << "PATCHçµæœ: " << res << std::endl;
 
-			auto getFuture = GetALLFacultiesAsync();
+			auto getFuture = GetAllFacultiesAsync();
 			std::string all = getFuture.get();
-			std::cout << "Œ»İ‚Ì‘SŠw‰Èˆê——:\n" << all << std::endl;
+			std::cout << "ç¾åœ¨ã®å…¨å­¦ç§‘ä¸€è¦§:\n" << all << std::endl;
 
 			break;
 		}
 	}
-	
+
 	return 0;
 }
