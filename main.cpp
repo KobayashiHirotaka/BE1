@@ -1,8 +1,28 @@
 #include <iostream>
 #include <curl.h>
-#include <windows.h>
+#include <string>
 #include "json.hpp"
 using json = nlohmann::json;
+
+std::wstring ConvertString(const std::string& s)
+{
+	int len = MultiByteToWideChar(CP_UTF8, 0, s.data(), (int)s.size(), NULL, 0);
+
+	std::wstring ws(len, 0);
+
+	MultiByteToWideChar(CP_UTF8, 0, s.data(), (int)s.size(), &ws[0], len);
+
+	return ws;
+}
+
+void WriteUtf8(const std::string& s)
+{
+	std::wstring ws = ConvertString(s);
+
+	DWORD _;
+
+	WriteConsoleW(GetStdHandle(STD_OUTPUT_HANDLE), ws.c_str(), (DWORD)ws.size(), &_, nullptr);
+}
 
 size_t WriteCallback(void* c, size_t s, size_t n, std::string* o)
 {
@@ -12,8 +32,6 @@ size_t WriteCallback(void* c, size_t s, size_t n, std::string* o)
 
 int main()
 {
-	SetConsoleOutputCP(65001);
-
 	curl_global_init(CURL_GLOBAL_ALL);
 	CURL* curl = curl_easy_init();
 
@@ -34,9 +52,7 @@ int main()
 			{
 				json data = json::parse(response);
 
-				std::cout << "ID: " << data["id"]
-					<< ", Name: " << data["name"]
-					<< std::endl;
+				WriteUtf8("ID: " + std::to_string(data["id"].get<int>()) + ", Name: " + data["name"].get<std::string>());
 			}
 			catch (const std::exception& e)
 			{
@@ -45,7 +61,7 @@ int main()
 		}
 		else
 		{
-			std::cout << "通信エラー" << std::endl;
+			WriteUtf8("通信エラー");
 		}
 
 		curl_easy_cleanup(curl);
