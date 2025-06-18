@@ -34,7 +34,7 @@ int main()
 		if (future.valid() && future.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
 		{
 			std::string res = future.get();
-			WriteUtf8("PATCH結果:" + res + "\n");
+			WriteUtf8("PATCH結果:\n" + res + "\n");
 
 			auto getFuture = GetAllFacultiesAsync();
 			std::string all = getFuture.get();
