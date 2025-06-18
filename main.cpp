@@ -1,56 +1,27 @@
 #include <iostream>
-#include <curl.h>
 #include <windows.h>
-#include "json.hpp"
-using json = nlohmann::json;
-
-size_t WriteCallback(void* c, size_t s, size_t n, std::string* o)
-{
-	o->append((char*)c, s * n);
-	return s * n;
-}
+#include "httpClient.h"
 
 int main()
 {
 	SetConsoleOutputCP(65001);
 
-	curl_global_init(CURL_GLOBAL_ALL);
-	CURL* curl = curl_easy_init();
+	auto patchFuture = PatchFacultyAsync(2, "スーパーゲームクリエイター科");
 
-	if (curl)
+	while (true)
 	{
-		std::string response;
-
-		curl_easy_setopt(curl, CURLOPT_URL,
-			"http://localhost:3000/faculties/1");
-
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-		CURLcode res = curl_easy_perform(curl);
-
-		if (res == CURLE_OK)
+		if (patchFuture.valid() && patchFuture.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
 		{
-			try
-			{
-				json data = json::parse(response);
+			std::string res = patchFuture.get();
+			std::cout << "PATCH結果: " << res << std::endl;
 
-				std::cout << "ID: " << data["id"]
-					<< ", Name: " << data["name"]
-					<< std::endl;
-			}
-			catch (const std::exception& e)
-			{
-				std::cout << e.what() << std::endl;
-			}
-		}
-		else
-		{
-			std::cout << "通信エラー" << std::endl;
-		}
+			auto getFuture = GetALLFacultiesAsync();
+			std::string all = getFuture.get();
+			std::cout << "現在の全学科一覧:\n" << all << std::endl;
 
-		curl_easy_cleanup(curl);
+			break;
+		}
 	}
-
-	curl_global_cleanup();
+	
 	return 0;
 }
