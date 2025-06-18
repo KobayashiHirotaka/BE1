@@ -6,13 +6,13 @@ int main()
 {
 	SetConsoleOutputCP(65001);
 
-	auto patchFuture = PatchFacultyAsync(2, "スーパーゲームクリエイター科");
+	auto future = PatchFacultyAsync(2, "スーパーゲームクリエイター科");
 
 	while (true)
 	{
-		if (patchFuture.valid() && patchFuture.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
+		if (future.valid() && future.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
 		{
-			std::string res = patchFuture.get();
+			std::string res = future.get();
 			std::cout << "PATCH結果: " << res << std::endl;
 
 			auto getFuture = GetAllFacultiesAsync();
